@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        // Docker Hub credentials (stored in Jenkins Credentials)
+        // Set your Docker Hub username and image name (or override via Jenkins job parameters)
         DOCKERHUB_CREDENTIALS = "${DOCKERHUB_CREDENTIALS}"
-        DOCKERHUB_USERNAME = "${DOCKERHUB_USERNAME}"
-        IMAGE_NAME = "${IMAGE_NAME}"
-        KUBE_CONFIG = '/root/.kube/config' // path to kubeconfig in Jenkins node
+        DOCKERHUB_USERNAME = 'minkhant16999'
+        IMAGE_NAME = 'demo'
+        KUBE_CONFIG = '/root/.kube/config'
     }
 
     triggers {
