@@ -16,29 +16,24 @@ pipeline {
 
     stages {
         stage('1.Clone repository') {
-        checkout scm
-       }
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build Docker Image') {
-            // steps {
-            //     script {
-            //         docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
-            //     }
-            // }
-             sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest ."
+            steps {
+                sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest ."
+            }
         }
 
         stage('Push Docker Image') {
-                // steps {
-                //     script {
-                //         docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
-                //             docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-                //             // Optional: also tag as latest
-                //             docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push('latest')
-                //         }
-                //     }
-                // }
-                sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh "echo \"\$DOCKER_PASS\" | docker login -u \"\$DOCKER_USER\" --password-stdin"
+                    sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
+                }
+            }
         }
 
         stage('Deploy to Kubernetes') {
