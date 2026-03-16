@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         // Docker Hub credentials (stored in Jenkins Credentials)
-        DOCKERHUB_CREDENTIALS = 'dockerhub-cred-id'
-        DOCKERHUB_USERNAME = 'your-dockerhub-username'
-        IMAGE_NAME = 'your-dockerhub-username/angular-app'
+        DOCKERHUB_CREDENTIALS = "${DOCKERHUB_CREDENTIALS}"
+        DOCKERHUB_USERNAME = "${DOCKERHUB_USERNAME}"
+        IMAGE_NAME = "${IMAGE_NAME}"
         KUBE_CONFIG = '/root/.kube/config' // path to kubeconfig in Jenkins node
     }
 
@@ -17,7 +17,8 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git'
+                git branch: 'dev', url: 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git'
+                
             }
         }
 
@@ -45,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Replace 'deployment.yaml' with your actual Kubernetes deployment file
-                    sh "kubectl apply -f deployment.yaml --kubeconfig=${KUBE_CONFIG}"
+                    sh "kubectl apply -f values.yaml --kubeconfig=${KUBE_CONFIG}"
                 }
             }
         }
