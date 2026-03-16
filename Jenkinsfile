@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'dev', url: 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git'
+                git branch: 'dev', url: "${REPO}"
                 
             }
         }
