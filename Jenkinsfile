@@ -15,31 +15,30 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'dev', url: "${REPO}"
-                
-            }
-        }
+        stage('1.Clone repository') {
+        checkout scm
+       }
 
         stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
-                }
-            }
+            // steps {
+            //     script {
+            //         docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+            //     }
+            // }
+             sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest ."
         }
 
         stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
-                        docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
-                        // Optional: also tag as latest
-                        docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push('latest')
-                    }
-                }
-            }
+                // steps {
+                //     script {
+                //         docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
+                //             docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push()
+                //             // Optional: also tag as latest
+                //             docker.image("${IMAGE_NAME}:${env.BUILD_NUMBER}").push('latest')
+                //         }
+                //     }
+                // }
+                sh "docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest"
         }
 
         stage('Deploy to Kubernetes') {
