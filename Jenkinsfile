@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         // Set your Docker Hub username and image name (or override via Jenkins job parameters)
-        DOCKERHUB_CREDENTIALS = "${DOCKERHUB_CREDENTIALS}"
+        DOCKERHUB_CREDENTIALS = credentials('DOCKERHUB_CREDENTIALS')
         DOCKERHUB_USERNAME = 'minkhant16999'
         IMAGE_NAME = 'demo'
         KUBE_CONFIG = '/root/.kube/config'
     }
 
     triggers {
-        githubPush()
+        pollSCM('* * * * *')
     }
 
     stages {
