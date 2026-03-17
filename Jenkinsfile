@@ -23,11 +23,23 @@ pipeline {
             }
         }
 
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Checkout') {
             steps {
-                echo "Cloning repo from SCM (job-configured repo & branch)"
-                checkout scm
+                echo "Cloning repo (branch: dev)"
+                git url: 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git', branch: 'dev'
                 sh 'echo "Checkout done. Commit: $(git rev-parse --short HEAD)"'
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                sh 'ls -la'
             }
         }
 
