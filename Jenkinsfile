@@ -15,9 +15,9 @@ pipeline {
     }
 
     stages {
-        stage('1.Clone repository') {
+        stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git'
             }
         }
 
