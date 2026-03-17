@@ -11,6 +11,7 @@ pipeline {
 
     triggers {
         // Trigger on every push to GitHub (requires GitHub webhook: repo → Settings → Webhooks → add Jenkins URL e.g. https://your-jenkins/github-webhook/)
+        echo "=========================================="
         githubPush()
     }
 
