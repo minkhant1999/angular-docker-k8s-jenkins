@@ -15,9 +15,21 @@ pipeline {
     }
 
     stages {
+        stage('Log Start') {
+            steps {
+                echo "=========================================="
+                echo "Pipeline started at: ${new Date().format('yyyy-MM-dd HH:mm:ss')}"
+                echo "Build: #${env.BUILD_NUMBER} | Job: ${env.JOB_NAME}"
+                echo "Triggered by: ${env.BUILD_CAUSE ?: 'manual'}"
+                echo "=========================================="
+            }
+        }
+
         stage('Checkout') {
             steps {
+                echo "Cloning repo: https://github.com/minkhant1999/angular-docker-k8s-jenkins.git (branch: dev)"
                 git 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git', branch: 'dev'
+                sh 'echo "Checkout done. Commit: $(git rev-parse --short HEAD)"'
             }
         }
 
