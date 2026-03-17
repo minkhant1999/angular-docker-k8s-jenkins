@@ -18,9 +18,8 @@ pipeline {
         stage('Log Start') {
             steps {
                 echo "=========================================="
-                echo "Pipeline started at: ${new Date().format('yyyy-MM-dd HH:mm:ss')}"
+                sh 'echo "Pipeline started at: $(date \'+%Y-%m-%d %H:%M:%S\')"'
                 echo "Build: #${env.BUILD_NUMBER} | Job: ${env.JOB_NAME}"
-                echo "Triggered by: ${env.BUILD_CAUSE ?: 'manual'}"
                 echo "=========================================="
             }
         }
