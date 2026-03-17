@@ -10,8 +10,6 @@ pipeline {
     }
 
     triggers {
-        // Trigger on every push to GitHub (requires GitHub webhook: repo → Settings → Webhooks → add Jenkins URL e.g. https://your-jenkins/github-webhook/)
-        echo "=========================================="
         githubPush()
     }
 
@@ -27,8 +25,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo "Cloning repo: https://github.com/minkhant1999/angular-docker-k8s-jenkins.git (branch: dev)"
-                git 'https://github.com/minkhant1999/angular-docker-k8s-jenkins.git', branch: 'dev'
+                echo "Cloning repo from SCM (job-configured repo & branch)"
+                checkout scm
                 sh 'echo "Checkout done. Commit: $(git rev-parse --short HEAD)"'
             }
         }
