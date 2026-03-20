@@ -6,4 +6,7 @@ services:
     container_name: car-rental
     ports:
       - "4200:80"
+    volumes:
+      - .:/app
+      - /app/node_modules
     restart: unless-stopped

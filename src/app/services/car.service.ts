@@ -30,18 +30,18 @@ export class CarService {
       fuel: 'Petrol',
       description: 'Sport sedan with refined handling and comfort.',
     },
-    {
-      id: '3',
-      name: 'Toyota RAV4',
-      category: 'SUV',
-      imageUrl:
-        'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80',
-      pricePerDay: 62,
-      seats: 5,
-      transmission: 'Automatic',
-      fuel: 'Hybrid',
-      description: 'Spacious SUV ideal for family trips and luggage.',
-    },
+    // {
+    //   id: '3',
+    //   name: 'Toyota RAV4',
+    //   category: 'SUV',
+    //   imageUrl:
+    //     'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80',
+    //   pricePerDay: 62,
+    //   seats: 5,
+    //   transmission: 'Automatic',
+    //   fuel: 'Hybrid',
+    //   description: 'Spacious SUV ideal for family trips and luggage.',
+    // },
     
     
   ];
