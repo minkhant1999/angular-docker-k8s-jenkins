@@ -42,18 +42,7 @@ export class CarService {
       fuel: 'Hybrid',
       description: 'Spacious SUV ideal for family trips and luggage.',
     },
-    {
-      id: '4',
-      name: 'Mercedes-Benz C-Class',
-      category: 'Luxury',
-      imageUrl:
-        'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-      pricePerDay: 82,
-      seats: 5,
-      transmission: 'Automatic',
-      fuel: 'Petrol',
-      description: 'Elegant interior with MBUX infotainment.',
-    },
+    
     
   ];
 
