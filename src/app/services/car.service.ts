@@ -54,30 +54,7 @@ export class CarService {
       fuel: 'Petrol',
       description: 'Elegant interior with MBUX infotainment.',
     },
-    {
-      id: '5',
-      name: 'Honda Civic',
-      category: 'Economy',
-      imageUrl:
-        'https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80',
-      pricePerDay: 45,
-      seats: 5,
-      transmission: 'Automatic',
-      fuel: 'Petrol',
-      description: 'Fuel-efficient and easy to drive in the city.',
-    },
-    {
-      id: '6',
-      name: 'Ford Mustang',
-      category: 'Sports',
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80',
-      pricePerDay: 95,
-      seats: 4,
-      transmission: 'Manual',
-      fuel: 'Petrol',
-      description: 'Iconic muscle car for a memorable drive.',
-    },
+    
   ];
 
   private readonly routes: RentalRoute[] = [

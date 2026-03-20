@@ -1,0 +1,9 @@
+services:
+  car-rental:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: car-rental
+    ports:
+      - "4200:80"
+    restart: unless-stopped
