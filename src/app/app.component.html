@@ -1,1 +1,22 @@
-yoz yoz yoz
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <a routerLink="/" class="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-900">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-600 text-white">D</span>
+        DriveLux
+      </a>
+      <nav class="flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a routerLink="/" class="hover:text-sky-700">Fleet</a>
+        <a routerLink="/book/1" class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">Book now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-sm text-slate-500">
+    <p>© {{ currentYear }} DriveLux — Demo car rental UI</p>
+  </footer>
+</div>
