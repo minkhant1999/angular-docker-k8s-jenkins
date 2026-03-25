@@ -19,6 +19,9 @@ RUN npm run build -- --configuration production
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
+# Angular SPA: fallback to index.html so deep links (e.g. /owner) work on hard reload
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
 # Copy build output to Nginx html folder
 COPY --from=build /app/dist/angular-docker-kubernetes /usr/share/nginx/html
 
