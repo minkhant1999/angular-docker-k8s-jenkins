@@ -1,0 +1,83 @@
+<div class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+  <a routerLink="/" class="inline-flex items-center gap-2 text-sm font-medium text-sky-700 hover:text-sky-900">← Back to fleet</a>
+
+  <div *ngIf="loading" class="mt-8 text-center text-slate-600">Loading…</div>
+  <p *ngIf="error" class="mt-8 text-center text-red-600">{{ error }}</p>
+
+  <div *ngIf="car && !loading" class="mt-6 space-y-8">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="space-y-4">
+        <div class="aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+          <img [src]="heroSrc(car)" [alt]="car.name" class="h-full w-full object-cover" />
+        </div>
+        <div class="flex flex-wrap gap-2" *ngIf="car.images && car.images.length > 1">
+          <button
+            *ngFor="let img of car.images; let i = index"
+            type="button"
+            class="h-16 w-24 overflow-hidden rounded-lg border-2 border-transparent hover:border-sky-300"
+            [class.ring-2]="heroImageIndex === i"
+            [class.ring-sky-500]="heroImageIndex === i"
+            (click)="setHero(i)"
+          >
+            <img [src]="img" class="h-full w-full object-cover" alt="" />
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-sky-600">{{ car.carType }}</p>
+        <h1 class="mt-1 text-3xl font-bold text-slate-900">{{ car.name }}</h1>
+        <p class="text-slate-600">{{ car.model }} · {{ car.year }}</p>
+        <p class="mt-4 flex items-center gap-2 text-slate-700">
+          <span class="font-medium">📍</span> {{ car.location }}
+        </p>
+        <p class="mt-4 text-slate-600">{{ car.description }}</p>
+        <dl class="mt-6 grid grid-cols-2 gap-3 text-sm">
+          <div class="rounded-lg bg-slate-50 p-3" *ngIf="car.seats">
+            <dt class="text-slate-500">Seats</dt>
+            <dd class="font-semibold">{{ car.seats }}</dd>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3" *ngIf="car.transmission">
+            <dt class="text-slate-500">Transmission</dt>
+            <dd class="font-semibold">{{ car.transmission }}</dd>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3" *ngIf="car.fuel">
+            <dt class="text-slate-500">Fuel</dt>
+            <dd class="font-semibold">{{ car.fuel }}</dd>
+          </div>
+          <div class="rounded-lg bg-slate-50 p-3">
+            <dt class="text-slate-500">Per day</dt>
+            <dd class="font-semibold text-sky-600">${{ car.pricePerDay }}</dd>
+          </div>
+        </dl>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            *ngIf="auth.user?.role === 'customer' && !isOwnListing()"
+            [routerLink]="['/book', car.id]"
+            class="rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-800"
+          >
+            Book this car
+          </a>
+          <a
+            *ngIf="!auth.isAuthenticated()"
+            [routerLink]="['/login']"
+            [queryParams]="{ returnUrl: '/cars/' + car.id }"
+            class="rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-800"
+          >
+            Log in to book
+          </a>
+          <button
+            *ngIf="auth.user?.role === 'customer' && !isOwnListing()"
+            type="button"
+            class="rounded-xl border border-slate-300 px-6 py-3 font-semibold text-slate-800 hover:bg-slate-50"
+            (click)="startChat()"
+          >
+            Message owner
+          </button>
+          <p *ngIf="isOwnListing()" class="text-sm text-slate-500">This is your listing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

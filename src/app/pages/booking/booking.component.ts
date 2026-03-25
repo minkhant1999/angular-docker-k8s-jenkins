@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Car, RentalRoute } from '../../models/car.model';
-import { CarService } from '../../services/car.service';
+import { CarListing, RentalRoute, primaryImage } from '../../models/car.model';
+import { AuthService } from '../../services/auth.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-booking',
@@ -10,46 +11,61 @@ import { CarService } from '../../services/car.service';
   styleUrls: ['./booking.component.css'],
 })
 export class BookingComponent implements OnInit {
-  car: Car | undefined;
+  car: CarListing | undefined;
   routes: RentalRoute[] = [];
   form: FormGroup;
   submitted = false;
   bookingRef: string | null = null;
+  apiError: string | null = null;
+  loading = true;
+  primaryImage = primaryImage;
 
-  /** $ per km added to base rental (route distance) */
   private readonly routeRatePerKm = 0.35;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private carService: CarService,
+    private data: DataService,
+    public auth: AuthService,
     private fb: FormBuilder
   ) {
     const today = this.toInputDate(new Date());
     const tomorrow = this.toInputDate(this.addDays(new Date(), 1));
 
     this.form = this.fb.group({
-      routeId: ['', Validators.required],
+      destination: ['', Validators.required],
+      routeId: [''],
       startDate: [today, Validators.required],
       endDate: [tomorrow, Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.routes = this.carService.getRoutes();
+    if (this.auth.user?.role !== 'customer') {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.routes = this.data.getRoutes();
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.router.navigate(['/']);
       return;
     }
-    this.car = this.carService.getCarById(id);
-    if (!this.car) {
-      this.router.navigate(['/']);
-      return;
-    }
-    if (this.routes.length) {
-      this.form.patchValue({ routeId: this.routes[0].id });
-    }
+    this.data.getCarById(id).subscribe((c) => {
+      this.loading = false;
+      this.car = c;
+      if (!c) {
+        this.router.navigate(['/']);
+        return;
+      }
+      if (c.ownerId === this.auth.user?.id) {
+        this.router.navigate(['/cars', id]);
+        return;
+      }
+      if (this.routes.length) {
+        this.form.patchValue({ routeId: this.routes[0].id });
+      }
+    });
   }
 
   get selectedRoute(): RentalRoute | undefined {
@@ -84,12 +100,31 @@ export class BookingComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     this.bookingRef = null;
+    this.apiError = null;
     if (this.form.invalid || !this.car || this.rentalDays < 1) {
       return;
     }
-    const ref = `BK-${Date.now().toString(36).toUpperCase()}`;
-    this.bookingRef = ref;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const dest = this.form.value.destination ?? '';
+    const startDate = this.form.value.startDate ?? '';
+    const endDate = this.form.value.endDate ?? '';
+    const routeId = this.form.value.routeId || undefined;
+
+    this.data
+      .bookCar({
+        carId: this.car.id,
+        startDate,
+        endDate,
+        destination: dest,
+        routeId,
+      })
+      .subscribe((result) => {
+        if (!result.ok) {
+          this.apiError = result.error;
+          return;
+        }
+        this.bookingRef = result.booking.id;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
   }
 
   private toInputDate(d: Date): string {

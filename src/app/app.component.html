@@ -5,9 +5,26 @@
         <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-600 text-white">D</span>
         DriveLux
       </a>
-      <nav class="flex items-center gap-6 text-sm font-medium text-slate-600">
+      <nav class="flex flex-wrap items-center justify-end gap-2 text-sm font-medium text-slate-600 sm:gap-4">
         <a routerLink="/" class="hover:text-sky-700">Fleet</a>
-        <a routerLink="/book/1" class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">Book now</a>
+
+        <ng-container *ngIf="auth.user$ | async as user; else loggedOut">
+          <span class="hidden max-w-[140px] truncate text-slate-500 sm:inline" [title]="user.email">{{ user.name }}</span>
+          <span class="hidden rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 sm:inline" *ngIf="user.role === 'owner'">Owner</span>
+          <span class="hidden rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-700 sm:inline" *ngIf="user.role === 'customer'">Customer</span>
+
+          <a *ngIf="user.role === 'owner'" routerLink="/owner" class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50">Dashboard</a>
+          <a *ngIf="user.role === 'customer'" routerLink="/my-bookings" class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50">My bookings</a>
+          <a routerLink="/inbox" class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50">Messages</a>
+          <a *ngIf="user.role === 'customer'" routerLink="/book/seed-1" class="rounded-lg bg-slate-900 px-3 py-2 text-white hover:bg-slate-800">Book</a>
+
+          <button type="button" class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50" (click)="logout()">Log out</button>
+        </ng-container>
+
+        <ng-template #loggedOut>
+          <a routerLink="/login" class="hover:text-sky-700">Log in</a>
+          <a routerLink="/signup" class="rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50">Sign up</a>
+        </ng-template>
       </nav>
     </div>
   </header>
@@ -17,6 +34,6 @@
   </main>
 
   <footer class="border-t border-slate-200 bg-white py-8 text-center text-sm text-slate-500">
-    <p>© {{ currentYear }} DriveLux — Demo car rental UI</p>
+    <p>© {{ currentYear }} DriveLux — Frontend demo (localStorage)</p>
   </footer>
 </div>

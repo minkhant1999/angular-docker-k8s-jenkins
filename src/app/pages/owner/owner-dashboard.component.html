@@ -1,0 +1,48 @@
+<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+  <h1 class="text-3xl font-bold text-slate-900">Owner dashboard</h1>
+  <p class="mt-2 text-slate-600">Manage your listings and booking requests (mock data in localStorage).</p>
+  <p class="mt-3 max-w-2xl text-sm text-slate-500">
+    Demo fleet cars start under a generic owner. Use the button below once to assign them to <strong>your</strong> account so customer bookings show up here.
+  </p>
+  <button
+    type="button"
+    class="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+    (click)="claimDemoFleet()"
+  >
+    Claim demo fleet listings
+  </button>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Your cars</p>
+      <p class="mt-2 text-3xl font-bold text-slate-900">{{ loading ? '…' : cars.length }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <p class="text-sm font-medium text-slate-500">Pending requests</p>
+      <p class="mt-2 text-3xl font-bold text-amber-600">{{ loading ? '…' : pendingBookings }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-center gap-2">
+      <a routerLink="/owner/cars/new" class="rounded-xl bg-sky-600 px-4 py-3 text-center font-semibold text-white hover:bg-sky-500">Add a car</a>
+      <a routerLink="/owner/bookings" class="rounded-xl border border-slate-200 px-4 py-3 text-center font-semibold text-slate-800 hover:bg-slate-50">View bookings</a>
+    </div>
+  </div>
+
+  <div class="mt-12">
+    <h2 class="text-lg font-bold text-slate-900">Your listings</h2>
+    <ul *ngIf="!loading && cars.length" class="mt-4 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <li *ngFor="let car of cars" class="flex flex-wrap items-center justify-between gap-4 px-4 py-4">
+        <div>
+          <p class="font-semibold text-slate-900">{{ car.name }} · {{ car.model }}</p>
+          <p class="text-sm text-slate-500">{{ car.location }} · ${{ car.pricePerDay }}/day</p>
+        </div>
+        <div class="flex gap-2">
+          <a [routerLink]="['/owner/cars', car.id, 'edit']" class="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium hover:bg-slate-50">Edit</a>
+          <button type="button" class="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-50" (click)="deleteCar(car)">
+            Delete
+          </button>
+        </div>
+      </li>
+    </ul>
+    <p *ngIf="!loading && cars.length === 0" class="mt-4 text-slate-600">No cars yet — add your first listing.</p>
+  </div>
+</div>

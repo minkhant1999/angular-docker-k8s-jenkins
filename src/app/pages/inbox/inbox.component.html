@@ -1,0 +1,17 @@
+<div class="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+  <h1 class="text-2xl font-bold text-slate-900">Messages</h1>
+  <p class="mt-1 text-sm text-slate-600">Mock chat stored in localStorage.</p>
+
+  <div *ngIf="loading" class="mt-8 text-slate-600">Loading…</div>
+
+  <ul *ngIf="!loading" class="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <li *ngIf="conversations.length === 0" class="p-8 text-center text-slate-600">No conversations yet.</li>
+    <li *ngFor="let c of conversations">
+      <a [routerLink]="['/chat', c.id]" class="flex flex-col gap-1 px-4 py-4 hover:bg-slate-50">
+        <span class="font-semibold text-slate-900">{{ c.carName }}</span>
+        <span class="text-sm text-slate-600">With {{ otherParty(c) }}</span>
+        <span class="text-xs text-slate-400">{{ c.lastMessageAt | date : 'short' }}</span>
+      </a>
+    </li>
+  </ul>
+</div>

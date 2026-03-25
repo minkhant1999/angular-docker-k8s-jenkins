@@ -1,0 +1,53 @@
+[
+  {
+    "id": "seed-1",
+    "ownerId": "seed-owner",
+    "name": "Tesla Model 3",
+    "model": "Long Range",
+    "year": 2023,
+    "pricePerDay": 89,
+    "location": "San Francisco, CA",
+    "carType": "Electric",
+    "description": "Long range, premium interior. Great for city and highway.",
+    "seats": 5,
+    "transmission": "Automatic",
+    "fuel": "Electric",
+    "images": [
+      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80"
+    ]
+  },
+  {
+    "id": "seed-2",
+    "ownerId": "seed-owner",
+    "name": "BMW 3 Series",
+    "model": "330i",
+    "year": 2022,
+    "pricePerDay": 75,
+    "location": "Los Angeles, CA",
+    "carType": "Luxury",
+    "description": "Sport sedan with refined handling and comfort.",
+    "seats": 5,
+    "transmission": "Automatic",
+    "fuel": "Petrol",
+    "images": [
+      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80"
+    ]
+  },
+  {
+    "id": "seed-3",
+    "ownerId": "seed-owner",
+    "name": "Toyota RAV4",
+    "model": "Hybrid XLE",
+    "year": 2023,
+    "pricePerDay": 62,
+    "location": "Seattle, WA",
+    "carType": "SUV",
+    "description": "Spacious SUV ideal for family trips and luggage.",
+    "seats": 5,
+    "transmission": "Automatic",
+    "fuel": "Hybrid",
+    "images": [
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80"
+    ]
+  }
+]
