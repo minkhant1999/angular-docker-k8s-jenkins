@@ -31,3 +31,10 @@ spec:
     - protocol: TCP
       port: 80
       nodePort: 30081
+
+  # docker build -t minkhant16999/car-rental:latest .
+  # docker tag car-rental minkhant16999/car-rental:latest
+  # docker push minkhant16999/car-rental:latest
+  # kubectl apply -f values.yaml
+  # kubectl get pods
+  # kubectl get svc
